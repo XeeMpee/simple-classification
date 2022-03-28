@@ -1,0 +1,10 @@
+boxplots/*
+histograms/*
+others/*
+
+dataspec.aux
+dataspec.fls
+dataspec.log
+dataspec.pdf
+dataspec.tex~
+dataspec.fbd_latexmk

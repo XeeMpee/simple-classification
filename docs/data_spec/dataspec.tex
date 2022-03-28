@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{xifthen}
+
+
+\newboolean{stop}
+\newcounter{NumFiles}
+\newcommand{\plots}[1]
+{
+    \setboolean{stop}{true}
+    \setcounter{NumFiles}{0}
+    \whiledo{\boolean{stop}}{
+      \IfFileExists{./#1/\theNumFiles.png}
+      {
+        \typeout{"including graphics \theNumFiles.png ..."}
+        \noindent\makebox[\textwidth]{\includegraphics[width=0.45\paperheight]{\theNumFiles.png}}
+        \stepcounter{NumFiles}
+      }
+      {
+        \setboolean{stop}{false}
+      }
+    }
+}
+
+\title{Sections and Chapters}
+\author{Overleaf}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Histogramy}
+\graphicspath{{histograms}}
+\plots{histograms}
+
+\section{Boxploty}
+\graphicspath{{boxplots}}
+\plots{boxplots}
+
+\section{Correlation matrix}
+\graphicspath{{others}}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.7\paperheight]{correlation_matrix.png}}
+
+\section{Features importance}
+\graphicspath{{others}}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.7\paperheight]{feature_importance.png}}
+
+\end{document}
