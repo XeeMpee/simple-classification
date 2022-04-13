@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.20)  26 MAR 2022 22:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.20)  28 MAR 2022 11:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -113,7 +113,8 @@ Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
 Package: ifmtarg 2018/04/16 v1.2b check for an empty argument
 ))
 \c@NumFiles=\count282
- (./dataspec.aux)
+
+No file dataspec.aux.
 \openout1 = `dataspec.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
@@ -130,7 +131,6 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
 LaTeX Font Info:    ... okay on input line 31.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
 LaTeX Font Info:    ... okay on input line 31.
-
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count283
@@ -466,9 +466,9 @@ Overfull \vbox (30.20331pt too high) has occurred while \output is active []
 
 [25 <./others/feature_importance.png>] (./dataspec.aux) ) 
 Here is how much of TeX's memory you used:
- 2568 strings out of 478353
- 47616 string characters out of 5854635
- 421920 words of memory out of 5000000
+ 2566 strings out of 478353
+ 47590 string characters out of 5854635
+ 421927 words of memory out of 5000000
  20668 multiletter control sequences out of 15000+600000
  407070 words of font info for 39 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -477,7 +477,7 @@ Here is how much of TeX's memory you used:
 /fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on dataspec.pdf (25 pages, 665367 bytes).
+Output written on dataspec.pdf (25 pages, 684981 bytes).
 PDF statistics:
  194 PDF objects out of 1000 (max. 8388607)
  70 compressed objects within 1 object stream

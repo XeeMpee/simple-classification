@@ -9,7 +9,8 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/app.py",
-            "args": ["--dataspec"],
+            // "args": ["-s", "--random-malform=0.1"],
+            "args": ["-c", "--random-malform=0.1", "-c"],
             "console": "integratedTerminal",
             "justMyCode": true
         }
