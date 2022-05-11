@@ -1,0 +1,30 @@
+general:
+  # input file path
+  input: "data_file.csv"
+  # tag of classifying column
+  class-tag: "class"
+  # defined learning model
+  # value: one-of ["svm", "random-forest"]
+  learn-model: null
+  # data spec will be generated in docs
+  generate-dataspec: False
+
+data-preprocessing:
+  # break down random cells for education purposes
+  # value: <float[0,1]> - probability of corruption
+  random-corruption: 0.0
+  # defines policy of malformed data handling
+  # value one-of [
+  # "restore" - restore malformed data with mean of rest features in row
+  # "remove" - removes row where malformed data occurs
+  # ]
+  malformed-policy: null
+  # saves preprocessed dataframe copy to csv file 
+  save-dataframe: False
+  # reduces dimensions with pca analyses
+  # value: <int> - amount of output features
+  pca: null
+  # remove columns tagged as listed
+  redundant-columns: null
+  # cells with value equls as listed are treated as malformed
+  malformed-values: null

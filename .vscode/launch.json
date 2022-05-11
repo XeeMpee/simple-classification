@@ -5,12 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "app --dataspec",
+            "name": "app",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/app.py",
-            // "args": ["-s", "--random-malform=0.1"],
-            "args": ["-c", "--random-malform=0.1", "-c"],
             "console": "integratedTerminal",
             "justMyCode": true
         }
