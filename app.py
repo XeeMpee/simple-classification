@@ -78,7 +78,8 @@ if __name__ == "__main__":
             
         model.fit(dataset.X_train, dataset.y_train.ravel())
         y_predicted = model.predict(dataset.X_test)
-        print(metrics.accuracy_score(dataset.y_test, y_predicted))
+        accuracy =metrics.accuracy_score(dataset.y_test, y_predicted)
+        print(f"Accuracy: {accuracy}")
 
     if config.generate_dataspec:
         dataspec.run(df, config.class_tag)
