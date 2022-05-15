@@ -6,6 +6,8 @@ general:
   # defined learning model
   # value: one-of ["svm", "random-forest"]
   learn-model: null
+  #  train size percentage size
+  train-size: 0.8
   # data spec will be generated in docs
   generate-dataspec: False
 
