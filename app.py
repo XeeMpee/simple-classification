@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn import metrics
-from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import StackingClassifier, VotingClassifier
 from src.models.learn_model_factory import LearnModelFactory
 from src.models.learn_model import LearnModel
 from src.config.config import Config
@@ -93,15 +93,36 @@ if __name__ == "__main__":
                 for indx, model in enumerate(models):
                     estimators.append((config.learn_models[indx], model.raw()))
 
-            voting_classifier = VotingClassifier(
+            voting_classifier_hard = VotingClassifier(
                 estimators=estimators, 
                 voting='hard'
             )
             
-            voting_classifier.fit(dataset.X_train,dataset.y_train.ravel())
-            y_predicted = voting_classifier.predict(dataset.X_test)
+            voting_classifier_soft = VotingClassifier(
+                estimators=estimators, 
+                voting='soft'
+            )
+            
+            stacking_classifier =StackingClassifier(
+                estimators=estimators, 
+            )
+            
+            voting_classifier_hard.fit(dataset.X_train,dataset.y_train.ravel())
+            y_predicted = voting_classifier_hard.predict(dataset.X_test)
             accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
-            print(f"voting classifier accuracy: {accuracy}")
+            print(f"voting classifier (hard voting) accuracy: {accuracy}")
+            
+            
+            voting_classifier_soft.fit(dataset.X_train,dataset.y_train.ravel())
+            y_predicted = voting_classifier_soft.predict(dataset.X_test)
+            accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
+            print(f"voting classifier (soft voting) accuracy: {accuracy}")
+            
+            
+            stacking_classifier.fit(dataset.X_train,dataset.y_train.ravel())
+            y_predicted = stacking_classifier.predict(dataset.X_test)
+            accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
+            print(f"stacking classifier accuracy: {accuracy}")
             
 
     if config.generate_dataspec:
