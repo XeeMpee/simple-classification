@@ -13,3 +13,6 @@ class RandomForestModelStrategy(LearnModelStrategy):
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         return self.clf.predict(X)
+
+    def raw(self):
+        return self.clf

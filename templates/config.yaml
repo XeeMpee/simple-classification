@@ -4,8 +4,10 @@ general:
   # tag of classifying column
   class-tag: "class"
   # defined learning model
-  # value: one-of ["svm", "random-forest"]
-  learn-model: null
+  # value: array of one-of ["svm", "random-forest"] values
+  learn-models: null
+  # value: boolean - enabling ensemble learning
+  ensemble-learning: False
   #  train size percentage size
   train-size: 0.8
   # data spec will be generated in docs
@@ -26,7 +28,7 @@ data-preprocessing:
   # reduces dimensions with pca analyses
   # value: <int> - amount of output features
   pca: null
-  # remove columns tagged as listed
+  # array of tags for columns dedicated to remove
   redundant-columns: null
-  # cells with value equls as listed are treated as malformed
+  # array of cells with values are treated as malformed
   malformed-values: null

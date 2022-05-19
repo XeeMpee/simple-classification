@@ -13,7 +13,8 @@ class Config:
 
         self.input = config["general"]["input"]
         self.class_tag = config["general"]["class-tag"] if config["general"]["class-tag"] is not None else "class"
-        self.learn_model = config["general"]["learn-model"]
+        self.learn_models = config["general"]["learn-models"]
+        self.ensemble_learning = config["general"]["ensemble-learning"]
         self.train_size = config["general"]["train-size"]
         self.generate_dataspec = config["general"]["generate-dataspec"]
 

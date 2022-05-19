@@ -14,3 +14,6 @@ class LearnModelStrategy(abc.ABC):
     def predict(self, X: np.ndarray) -> np.ndarray:
         raise NotImplementedError()
     
+    @abc.abstractclassmethod
+    def raw(self):
+        raise NotImplementedError()
