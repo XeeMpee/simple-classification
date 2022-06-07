@@ -17,3 +17,7 @@ class ILearnModel(abc.ABC):
     @abc.abstractclassmethod
     def raw(self):
         raise NotImplementedError()
+    
+    @abc.abstractclassmethod
+    def name(self):
+        raise NotImplementedError()

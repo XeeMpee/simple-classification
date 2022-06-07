@@ -17,6 +17,7 @@ class Config:
         self.ensemble_learning_classifiers = config["general"]["ensemble-learning-classifiers"]
         self.train_size = config["general"]["train-size"]
         self.generate_dataspec = config["general"]["generate-dataspec"]
+        self.print_predicted = config["general"]["print-predicted"]
 
         self.random_corruption = config["data-preprocessing"]["random-corruption"]
         self.malformed_policy = config["data-preprocessing"]["malformed-policy"]

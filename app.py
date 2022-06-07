@@ -1,18 +1,19 @@
 from datetime import datetime
+from django import conf
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn import metrics
-from sklearn.ensemble import StackingClassifier, VotingClassifier
+from src.metrics.model_metrics import ModelMetrics
+from src.models.ensemble_learn_model_factory import EnsembleLearnModelFactory
 from src.models.learn_model_factory import LearnModelFactory
-from src.models.learn_model import LearnModel
 from src.config.config import Config
 from src.common.data_restorer import DataRestorer, RestorationType
 import src.dataspec.gen_data_spec as dataspec
 from src.utils.data_processing_utils import DataProcessingUtils
+import sys
 
-from src.models.strategies.svm_model_strategy import SvmModelStrategy
-from src.models.strategies.random_forest_model_strategy import RandomForestModelStrategy
+np.set_printoptions(threshold=sys.maxsize)
 
 
 def column_purification(df, redundant_columns):
@@ -88,25 +89,8 @@ if __name__ == "__main__":
 
             ensemble_classifiers = []
             for ensemble_classifier_name in config.ensemble_learning_classifiers:
-                if ensemble_classifier_name == "voting-classifier-soft":
-                    ensemble_classifiers.append(VotingClassifier(
-                        estimators=[model.raw() for model in partial_models],
-                        voting='hard'
-                    ))
-
-                if ensemble_classifier_name == "voting-classifier-hard":
-                    ensemble_classifiers.append(VotingClassifier(
-                        estimators=[model.raw() for model in partial_models],
-                        voting='soft'
-                    ))
-
-                if ensemble_classifier_name == "stacking-classifier":
-                    ensemble_classifiers.append(StackingClassifier(
-                        estimators=[model.raw() for model in partial_models],
-                    ))
-
-            for ensemble_classifier in ensemble_classifiers:
-                models.append(ensemble_classifier)
+                models.append(EnsembleLearnModelFactory().create(
+                    ensemble_classifier_name, partial_models))
 
         # training models:
         dataset = DataProcessingUtils().divide(df, config.class_tag, 0.2)
@@ -116,8 +100,15 @@ if __name__ == "__main__":
                 dataset.y_train.ravel()
             )
             y_predicted = model.predict(dataset.X_test)
-            accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
-            print(f"Accuracy: {accuracy}")
+            
+            if(config.print_predicted):
+                print(y_predicted)
+            
+            # printing metrics
+            if config.metrics:
+                print(f"{model.name()} metrics: ")
+                for metrics in ModelMetrics(config, dataset.y_test, y_predicted).all_metrics():
+                    print(metrics)
 
     if config.generate_dataspec:
         dataspec.run(df, config.class_tag)

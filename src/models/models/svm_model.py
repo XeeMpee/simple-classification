@@ -6,7 +6,7 @@ from src.models.models.i_learn_model import ILearnModel
 
 class SvmModel(ILearnModel):
     def __init__(self) -> None:
-        self.clf = sklearn.svm.SVC(kernel="rbf", probability=True)
+        self.clf = sklearn.svm.SVC(kernel="sigmoid", probability=True)
 
     def fit(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
         self.clf.fit(X, y)
@@ -16,3 +16,6 @@ class SvmModel(ILearnModel):
 
     def raw(self):
         return self.clf
+
+    def name(self):
+        return "SvmModel"

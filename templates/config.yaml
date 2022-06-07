@@ -15,6 +15,8 @@ general:
   generate-dataspec: False
   # generating report for all metrics
   metrics-report: True
+  # print out array of predicted values
+  print-predicted: False
 
 data-preprocessing:
   # break down random cells for education purposes
@@ -39,8 +41,8 @@ data-preprocessing:
 optimization:
   # parameter selection methods used for model optimization
   # value: array of one-of ["genetic-algorithm"] values
-  parameter-selection-methods: "genetic-algorithm"
+  parameter-selection-methods: null
 
   # methods of model efficiency measurements 
-  # value: array of one-of ["f1-score", "accuracy", "confusion-matrix"] values
+  # value: array of one-of ["accuracy", "confusion-matrix",  "f1-score", "recall", "precision" ] values
   metrics: "f1-score"

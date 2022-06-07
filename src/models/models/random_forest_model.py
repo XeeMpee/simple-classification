@@ -16,3 +16,6 @@ class RandomForestModel(ILearnModel):
 
     def raw(self):
         return self.clf
+
+    def name(self):
+        return "RandomForestModel"

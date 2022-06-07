@@ -6,9 +6,9 @@ from src.models.models.i_learn_model import ILearnModel
 
 
 class EnsembleStackingClassifierModel(ILearnModel):
-    def __init__(self, models: List[ILearnModel]) -> None:
+    def __init__(self, estimators) -> None:
         self.clf = StackingClassifier(
-            estimators=[model.raw() for model in models],
+            estimators=estimators,
         )
 
     def fit(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
@@ -19,3 +19,6 @@ class EnsembleStackingClassifierModel(ILearnModel):
 
     def raw(self):
         return self.clf
+
+    def name(self):
+        return "EnsembleStackingClassifierModel"
