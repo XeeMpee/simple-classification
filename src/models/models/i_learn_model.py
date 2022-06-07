@@ -2,7 +2,7 @@ import abc
 import numpy as np
 
 
-class LearnModelStrategy(abc.ABC):
+class ILearnModel(abc.ABC):
     def __init__() -> None:
         pass
 

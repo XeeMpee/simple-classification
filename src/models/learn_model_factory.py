@@ -1,20 +1,14 @@
-from src.models.learn_model import LearnModel
-from src.models.strategies.svm_model_strategy import  SvmModelStrategy
-from src.models.strategies.random_forest_model_strategy import RandomForestModelStrategy
+from src.models.models.i_learn_model import ILearnModel
+from src.models.models.svm_model import  SvmModel
+from src.models.models.random_forest_model import RandomForestModel
 class LearnModelFactory:
     
     def __init__(self) -> None:
         self.models = {
-            "svm": lambda : self._model(SvmModelStrategy()),
-            "random-forest": lambda : self._model(RandomForestModelStrategy())
+            "svm": lambda : SvmModel(),
+            "random-forest": lambda : RandomForestModel()
         }
     
-    def create(self, model_name : str) -> LearnModel:
+    def create(self, model_name : str) -> ILearnModel:
         return self.models.get(model_name)()
-        
-        
-    def _model(self, strategy) -> LearnModel:
-        model = LearnModel()
-        model.set_strategy(strategy)
-        return model
         

@@ -73,57 +73,51 @@ if __name__ == "__main__":
         df.to_csv(f"data/{current_time_str}.csv")
 
     if config.learn_models:
-        dataset = DataProcessingUtils().divide(df, config.class_tag, 0.2)
         models = []
-        for model_name in config.learn_models:
-            models.append(LearnModelFactory().create(model_name))
 
-        if config.ensemble_learning is False:
-            for indx, model in enumerate(models):
-                model.fit(dataset.X_train, dataset.y_train.ravel())
-                y_predicted = model.predict(dataset.X_test)
-                accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
-                print(f"{config.learn_models[indx]} accuracy: {accuracy}")
+        partial_models = []
+        for model_name in config.learn_models:
+            partial_models.append(LearnModelFactory().create(model_name))
+
+        if config.ensemble_learning_classifiers is None:
+            models = partial_models
         else:
-            if len(models) < 2:
+            if len(partial_models) < 2:
                 raise RuntimeError(
                     "Insufficient number of models for ensemble learning")
-            else:
-                estimators = []
-                for indx, model in enumerate(models):
-                    estimators.append((config.learn_models[indx], model.raw()))
 
-            voting_classifier_hard = VotingClassifier(
-                estimators=estimators, 
-                voting='hard'
+            ensemble_classifiers = []
+            for ensemble_classifier_name in config.ensemble_learning_classifiers:
+                if ensemble_classifier_name == "voting-classifier-soft":
+                    ensemble_classifiers.append(VotingClassifier(
+                        estimators=[model.raw() for model in partial_models],
+                        voting='hard'
+                    ))
+
+                if ensemble_classifier_name == "voting-classifier-hard":
+                    ensemble_classifiers.append(VotingClassifier(
+                        estimators=[model.raw() for model in partial_models],
+                        voting='soft'
+                    ))
+
+                if ensemble_classifier_name == "stacking-classifier":
+                    ensemble_classifiers.append(StackingClassifier(
+                        estimators=[model.raw() for model in partial_models],
+                    ))
+
+            for ensemble_classifier in ensemble_classifiers:
+                models.append(ensemble_classifier)
+
+        # training models:
+        dataset = DataProcessingUtils().divide(df, config.class_tag, 0.2)
+        for model in models:
+            model.fit(
+                dataset.X_train,
+                dataset.y_train.ravel()
             )
-            
-            voting_classifier_soft = VotingClassifier(
-                estimators=estimators, 
-                voting='soft'
-            )
-            
-            stacking_classifier =StackingClassifier(
-                estimators=estimators, 
-            )
-            
-            voting_classifier_hard.fit(dataset.X_train,dataset.y_train.ravel())
-            y_predicted = voting_classifier_hard.predict(dataset.X_test)
+            y_predicted = model.predict(dataset.X_test)
             accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
-            print(f"voting classifier (hard voting) accuracy: {accuracy}")
-            
-            
-            voting_classifier_soft.fit(dataset.X_train,dataset.y_train.ravel())
-            y_predicted = voting_classifier_soft.predict(dataset.X_test)
-            accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
-            print(f"voting classifier (soft voting) accuracy: {accuracy}")
-            
-            
-            stacking_classifier.fit(dataset.X_train,dataset.y_train.ravel())
-            y_predicted = stacking_classifier.predict(dataset.X_test)
-            accuracy = metrics.accuracy_score(dataset.y_test, y_predicted)
-            print(f"stacking classifier accuracy: {accuracy}")
-            
+            print(f"Accuracy: {accuracy}")
 
     if config.generate_dataspec:
         dataspec.run(df, config.class_tag)

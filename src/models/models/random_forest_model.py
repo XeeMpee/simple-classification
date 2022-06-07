@@ -2,9 +2,9 @@ import sklearn.svm
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-from src.models.strategies.learn_model_strategy import LearnModelStrategy
+from src.models.models.i_learn_model import ILearnModel
 
-class RandomForestModelStrategy(LearnModelStrategy):
+class RandomForestModel(ILearnModel):
     def __init__(self) -> None:
         self.clf = RandomForestClassifier(max_depth=4, random_state=0)
 

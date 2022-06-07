@@ -1,10 +1,10 @@
 import sklearn.svm
 import numpy as np
 
-from src.models.strategies.learn_model_strategy import LearnModelStrategy
+from src.models.models.i_learn_model import ILearnModel
 
 
-class SvmModelStrategy(LearnModelStrategy):
+class SvmModel(ILearnModel):
     def __init__(self) -> None:
         self.clf = sklearn.svm.SVC(kernel="rbf", probability=True)
 

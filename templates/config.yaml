@@ -6,12 +6,15 @@ general:
   # defined learning model
   # value: array of one-of ["svm", "random-forest"] values
   learn-models: null
-  # value: boolean - enabling ensemble learning
-  ensemble-learning: False
+  # value: array of one-of [ "voting-classifier-soft",  "voting-classifier-hard",  "stacking-classifier"] values
+  # when set to null, all models will be trained separately
+  ensemble-learning-classifiers: False
   #  train size percentage size
   train-size: 0.8
   # data spec will be generated in docs
   generate-dataspec: False
+  # generating report for all metrics
+  metrics-report: True
 
 data-preprocessing:
   # break down random cells for education purposes
@@ -32,3 +35,12 @@ data-preprocessing:
   redundant-columns: null
   # array of cells with values are treated as malformed
   malformed-values: null
+
+optimization:
+  # parameter selection methods used for model optimization
+  # value: array of one-of ["genetic-algorithm"] values
+  parameter-selection-methods: "genetic-algorithm"
+
+  # methods of model efficiency measurements 
+  # value: array of one-of ["f1-score", "accuracy", "confusion-matrix"] values
+  metrics: "f1-score"
