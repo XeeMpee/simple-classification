@@ -1,9 +1,12 @@
 from datetime import datetime
+import itertools
 from django import conf
 import numpy as np
 import pandas as pd
+import sklearn
 from sklearn.decomposition import PCA
 from sklearn import metrics
+from sklearn.model_selection import GridSearchCV
 from src.metrics.model_metrics import ModelMetrics
 from src.models.ensemble_learn_model_factory import EnsembleLearnModelFactory
 from src.models.learn_model_factory import LearnModelFactory
@@ -68,6 +71,11 @@ if __name__ == "__main__":
                            )
         df = dfx.assign(**{config.class_tag: dfy})
 
+    if config.generate_dataspec:
+        dfx = df.drop(config.class_tag, axis=1)
+        dfy = df[config.class_tag].to_numpy().astype(np.int64)
+        dataspec.run(dfx, dfy, config.class_tag)
+
     if config.save_dataframe:
         now = datetime.now()
         current_time_str = now.strftime("%Y%d%m%H%M%S")
@@ -95,20 +103,36 @@ if __name__ == "__main__":
         # training models:
         dataset = DataProcessingUtils().divide(df, config.class_tag, 0.2)
         for model in models:
-            model.fit(
-                dataset.X_train,
-                dataset.y_train.ravel()
-            )
-            y_predicted = model.predict(dataset.X_test)
-            
-            if(config.print_predicted):
-                print(y_predicted)
-            
-            # printing metrics
-            if config.metrics:
-                print(f"{model.name()} metrics: ")
-                for metrics in ModelMetrics(config, dataset.y_test, y_predicted).all_metrics():
-                    print(metrics)
+            # model.fit(
+            #     dataset.X_train,
+            #     dataset.y_train.ravel()
+            # )
+            # y_predicted = model.predict(dataset.X_test)
 
-    if config.generate_dataspec:
-        dataspec.run(df, config.class_tag)
+            # if(config.print_predicted):
+            #     print(y_predicted)
+
+            # # printing metrics
+            # if config.metrics:
+            #     print(f"{model.name()} metrics: ")
+            #     for metrics in ModelMetrics(config, dataset.y_test, y_predicted).all_metrics():
+            #         print(metrics)
+
+            # TEMPORARY
+            print("Default run")
+            model.fit(dataset.X_train, dataset.y_train.ravel())
+            y_predicted = model.predict(dataset.X_test)
+            print(ModelMetrics(config, dataset.y_test, y_predicted).all_metrics())
+            
+            print("Optimized run")
+            grid_search_cv = GridSearchCV(
+                estimator=model.raw(),
+                param_grid=config.search_grid,
+                scoring=config.metrics[0],
+                n_jobs=8,
+            )
+            grid_search_cv.fit(dataset.X_train, dataset.y_train.ravel())
+            y_predicted = grid_search_cv.predict(dataset.X_test)
+            print(ModelMetrics(config, dataset.y_test, y_predicted).all_metrics())
+            print(f"Best params: {grid_search_cv.best_params_}")
+            

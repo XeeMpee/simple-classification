@@ -50,7 +50,7 @@ def importance_plot(class_tag, df, dfy):
     X = df.to_numpy()
 
     forest = RandomForestClassifier(random_state=0)
-    forest.fit(X, dfy.values.ravel().astype(np.int8))
+    forest.fit(X, dfy.ravel().astype(np.int8))
     importances = forest.feature_importances_
 
     forest_importances = pd.Series(

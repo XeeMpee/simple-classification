@@ -28,4 +28,5 @@ class Config:
 
         self.parameter_selection_methods = config["optimization"]["parameter-selection-methods"] if config["optimization"]["parameter-selection-methods"] is not None else []
         self.metrics = config["optimization"]["metrics"] if config["optimization"]["metrics"] is not None else []
+        self.search_grid = config["optimization"]["search-grid"] if config["optimization"]["search-grid"] is not None else []
 # fmt: on

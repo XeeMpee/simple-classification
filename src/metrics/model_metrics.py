@@ -27,7 +27,7 @@ class ModelMetrics:
             return metrics.recall_score(y, y_predicted)
         if(metrics_name == "precision"):
             return metrics.precision_score(y, y_predicted)
-        if(metrics_name == "f1-score"):
+        if(metrics_name == "f1"):
             return metrics.f1_score(y, y_predicted)
 
         raise IndexError("No such metrics")

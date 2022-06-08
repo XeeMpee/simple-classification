@@ -42,7 +42,8 @@ optimization:
   # parameter selection methods used for model optimization
   # value: array of one-of ["genetic-algorithm"] values
   parameter-selection-methods: null
-
   # methods of model efficiency measurements 
-  # value: array of one-of ["accuracy", "confusion-matrix",  "f1-score", "recall", "precision" ] values
-  metrics: "f1-score"
+  # value: array of one-of ["accuracy", "confusion-matrix",  "f1", "recall", "precision" ] values
+  metrics: null
+  # search grid for model
+  search-grid: null
